@@ -7,7 +7,7 @@ SAS tools to aid manipulation and curation of datasets.
 A collection of macros developed by programmers for the SAS institute. These macros address common problems
 when coding in SAS that are not resolved by functions included in the standard SAS software package.
 
-#### [sleepepi-sas-macros.sas](https://github.com/sleepepi/sas-tools/tree/master/sas-institute-macros.sas)
+#### [sleepepi-sas-macros.sas](https://github.com/sleepepi/sas-tools/tree/master/sleepepi-sas-macros.sas)
 A collection of macros developed by sleepepi programmers. These macros address common problems
 when merging data.
   - generate_contents()
