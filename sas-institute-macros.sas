@@ -1,7 +1,6 @@
 *Check if dataset exists and, if missing, create empty dataset with:
   variable &id_varname, format of &macrostore_idformat, with missing values in that format represented by &macrostore_idmisval;
-*Code adapted from that written by Spencer Childress and Brandon Welch of SAS Institute: http://analytics.ncsu.edu/sesug/2011/CC19.Childress.pdf;
-
+ *Code adapted from that written by Spencer Childress and Brandon Welch for SAS Institute: http://analytics.ncsu.edu/sesug/2011/CC19.Childress.pdf;
 %macro create_emptydataset_ifmissing(dataset2check, id_varname, macrostore_idformat=best12., macrostore_idmisval=.);
 
  %local Exist NumObs;
@@ -33,7 +32,7 @@
 %mend create_emptydataset_ifmissing;
 
 *count the number of words in a list;
- *Code adopted from Robert J. Morris of SAS Institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
+ *Code adopted from Robert J. Morris for SAS Institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
 %macro num_tokens(words, delim=%str( ));
  %local counter;
 
@@ -52,7 +51,7 @@
 %mend num_tokens;
 
 *Add a string constant as a suffix or prefix to all words in a list;
- *Code adopted from Robert J. Morris of SAS Institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
+ *Code adopted from Robert J. Morris for SAS Institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
 %macro add_string(words, str, delim=%str( ), location=suffix);
  %local outstr i word num_words;
 
@@ -102,7 +101,7 @@
 %mend add_string;
 
 *Join each item in one list of words to an item in another list of words (sequential matching);
- *Code adopted from Robert J. Morris of SAS institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
+ *Code adopted from Robert J. Morris for SAS institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
 %macro parallel_join(words1, words2, joinstr, delim1=%str( ), delim2=%str( ));
  %local i num_words1 num_words2 word outstr;
 
@@ -146,7 +145,7 @@
 %mend parallel_join;
 
 *Rename a list of variable en masse by adding a constant string as a prefix or suffix;
- *Code adopted from Robert J. Morris of SAS institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
+ *Code adopted from Robert J. Morris for SAS institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
 %macro rename_string(words, str, delim=%str( ), location=suffix);
 
  %* Verify macro arguments. ;
@@ -178,7 +177,7 @@
 %mend rename_string;
 
 *Create list of words appending an iterative numeric suffix to the end of a base word;
- *Code adopted from Robert J. Morris of SAS institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
+ *Code adopted from Robert J. Morris for SAS institute: http://www2.sas.com/proceedings/sugi30/029-30.pdf;
 %macro suffix_counter(base, end, start=1, zpad=0);
  %local outstr i counter;
 
