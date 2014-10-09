@@ -180,3 +180,44 @@
 
   %exit:
 %mend list_vars_containing_value;
+
+* Identify variables that contain only integers (no floating point numbers);
+* Purpose: to aid in identifying variables that might be numeric representations of categorical variables;
+* &variable_list is a list of variables to check separated by &delim;
+%macro list_integer_vars(dataset, variable_list, delim = %str( ));
+  %local output_list i current_var num_vars is_float;
+
+  %* Verify macro arguments. ;
+  %if (%length(&variable_list) eq 0) %then %do;
+    %put ***ERROR(add_string): Required argument 'variable_list' is missing.;
+    %goto exit;
+  %end;
+
+  %* Build the output_list by looping through the variable_list list and check if the variables are all integers;
+  %let output_list = ;
+  %let num_vars = %num_tokens(&variable_list, delim=&delim);
+
+  %do i=1 %to &num_vars;
+    %let current_var = %scan(&variable_list, &i, &delim);
+    %let is_float = 0;
+    %do;
+      proc sql noprint;
+        select exists(select * from &dataset where mod(&current_var,1) not in (0,.)) into :is_float
+        from &dataset;
+      quit;
+    %end;
+    %if &is_float = 0 %then %do;
+      %if (%length(&output_list) eq 0) %then %do;
+        %let output_list = &current_var;
+      %end;
+      %else %do;
+        %let output_list = &output_list&delim&current_var;
+      %end;
+    %end;
+  %end;
+
+   %* Output the list of variables containing only integers to the SAS Log. ;
+   %put &output_list;
+
+  %exit:
+%mend list_integer_vars;
