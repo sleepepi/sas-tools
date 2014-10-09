@@ -165,7 +165,7 @@
     %do;
       proc sql noprint;
         select exists(select * from &dataset where &current_var = &value) into :contains_value
-        from %dataset;
+        from &dataset;
       quit;
     %end;
     %if &contains_value = 1 %then %do;
