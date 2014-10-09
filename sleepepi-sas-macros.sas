@@ -135,3 +135,48 @@
 * %let list_of_merged_datasets = dataset1 dataset2 dataset3 dataset4 dataset5;
 * %create_contents_note_conflicts(&list_of_merged_datasets, inlibrary = samplib, delete_indivsets=NO);
 **************************************************************************************************************************************************;
+
+
+**************************************************************************************************************************************************;
+* Identify variables that may need to undergo QC
+**************************************************************************************************************************************************;
+* Identify variables that contain a certain value;
+* Purpose: some datasets use particular values (e.g., -1, -9) to signify data that is missing or N/A;
+* &variable_list is a list of variables to check separated by &delim, and &value is the value to search;
+%macro list_vars_containing_value(dataset, variable_list, value, delim = %str( ));
+  %local output_list i current_var num_vars contains_value;
+
+  %* Verify macro arguments. ;
+  %if (%length(&variable_list) eq 0) %then %do;
+    %put ***ERROR(add_string): Required argument 'variable_list' is missing.;
+    %goto exit;
+  %end;
+
+  %* Build the output_list by looping through the variable_list list and check if the variable ever contains the value;
+  %let output_list = ;
+  %let num_vars = %num_tokens(&variable_list, delim=&delim);
+
+  %do i=1 %to &num_vars;
+    %let current_var = %scan(&variable_list, &i, &delim);
+    %let contains_value = 0;
+    %do;
+      proc sql noprint;
+        select exists(select * from &dataset where &current_var = &value) into :contains_value
+        from %dataset;
+      quit;
+    %end;
+    %if &contains_value = 1 %then %do;
+      %if (%length(&output_list) eq 0) %then %do;
+        %let output_list = &current_var;
+      %end;
+      %else %do;
+        %let output_list = &output_list&delim&current_var;
+      %end;
+    %end;
+  %end;
+
+   %* Output the list of variables contain the value of interest to the SAS Log. ;
+   %put &output_list;
+
+  %exit:
+%mend list_vars_containing_value;
