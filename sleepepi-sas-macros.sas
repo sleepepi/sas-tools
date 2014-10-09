@@ -1,7 +1,10 @@
-%let sleepepi_sas_tools_path = .;
+%let username = ;
+
+%let rootpath = C:\Users;
+%let sas_tools_path = sas-tools;
 
 *include macros developed by the SAS institute that are called by sleepepi's custom macros;
-%include "&sleepepi_sas_tools_path\sas-institute-macros.sas";
+%include "&rootpath\&username\&sas_tools_path\sas-institute-macros.sas";
 
 **************************************************************************************************************************************************;
 * Compare Datasets to Identify Conflicting Variable Labels (potentially indicating that the variables contain different information)
